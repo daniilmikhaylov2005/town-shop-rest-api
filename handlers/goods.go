@@ -1,21 +1,28 @@
 package handlers
 
 import (
+	"github.com/daniilmikhaylov2005/town-shop-rest-api/repository"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
 )
 
-type tempResponse struct {
-	Category string `json: "category"`
-	ID       int    `json: "id"`
+type response struct {
+	Status string `json:"status"`
 }
 
 func GetAllGoods(c echo.Context) error {
 	category := c.Param("category")
-	return c.JSON(http.StatusOK, tempResponse{
-		Category: category,
-	})
+
+	goods, err := repository.GetAllGoods(category)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, response{
+			Status: err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, goods)
 }
 
 func GetGoodById(c echo.Context) error {
@@ -23,14 +30,18 @@ func GetGoodById(c echo.Context) error {
 	stringId := c.Param("id")
 	intId, err := strconv.Atoi(stringId)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, struct {
-			Status string `json:"status"`
-		}{
-			Status: "Error while convert id from url to string",
+		return c.JSON(http.StatusBadRequest, response{
+			Status: "Error while get id from url",
 		})
 	}
-	return c.JSON(http.StatusOK, tempResponse{
-		Category: category,
-		ID:       intId,
-	})
+
+	good, err := repository.GetGoodById(category, intId)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, response{
+			Status: err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, good)
 }
