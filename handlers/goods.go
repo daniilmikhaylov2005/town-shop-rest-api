@@ -7,10 +7,6 @@ import (
 	"strconv"
 )
 
-type response struct {
-	Status string `json:"status"`
-}
-
 func GetAllGoods(c echo.Context) error {
 	category := c.Param("category")
 

@@ -10,3 +10,11 @@ CREATE TABLE goods (
 	image TEXT,
 	category varchar(255) NOT NULL REFERENCES categories (category) ON DELETE CASCADE
 );
+
+CREATE TABLE users (
+	id SERIAL PRIMARY KEY,
+	name varchar(255),
+	username varchar(255) NOT NULL UNIQUE,
+	password varchar(80000) NOT NULL,
+	role varchar(255) NOT NULL
+);
