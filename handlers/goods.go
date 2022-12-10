@@ -31,7 +31,7 @@ func GetGoodById(c echo.Context) error {
 		})
 	}
 
-	good, err := repository.GetGoodById(category, intId)
+	good, err := repository.GetGoodByIdAndCategory(category, intId)
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, response{
