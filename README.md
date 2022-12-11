@@ -36,6 +36,8 @@ this article describes in detail
 
 ## /api/goods/:category
 
+**Method: GET**
+
 **return**
 
 ```yaml
@@ -59,6 +61,8 @@ this article describes in detail
 
 ## /api/goods/:category/:id
 
+**Method: GET**
+
 **return**
 
 ```yaml
@@ -74,6 +78,8 @@ this article describes in detail
 # *Work with admin panel*
 
 ## /auth/signup
+
+**Method: POST**
 
 **take**
 
@@ -93,6 +99,8 @@ this article describes in detail
 
 ## /auth/signin
 
+**Method: POST**
+
 **take**
 
 ```yaml
@@ -107,5 +115,77 @@ this article describes in detail
 ```yaml
 {
   "token": "token.token.token"
+}
+```
+
+## /admin/good
+
+**Method: POST**
+
+To create a good, the category must be in the category table
+
+**take**
+
+```yaml
+{
+  "name": "name",
+  "category": "category",
+  "description": "description"
+}
+```
+
+**return**
+
+```yaml
+{ 
+  "id": 3, 
+  "name": "name",
+  "description": "description",
+  "image": "url/to/image.jpg",
+  "category": "category"
+}
+```
+
+## /admin/good/:id
+
+**Method: PUT**
+
+
+
+**take**
+
+```yaml
+{
+  "name?": "name",
+  "category?": "category",
+  "description?": "description"
+}
+```
+
+**return**
+
+```yaml
+{ 
+  "id": 3, 
+  "name": "name",
+  "description": "description",
+  "image": "url/to/image.jpg",
+  "category": "category"
+}
+```
+
+## /admin/good/:id
+
+**Method: DELETE**
+
+**take**
+
+Only id in param
+
+**return**
+
+```yaml
+{
+  "status": "good with id # deleted"
 }
 ```
