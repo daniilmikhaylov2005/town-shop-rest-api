@@ -2,7 +2,9 @@ package main
 
 import (
 	"github.com/daniilmikhaylov2005/town-shop-rest-api/handlers"
+	m "github.com/daniilmikhaylov2005/town-shop-rest-api/middleware"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
@@ -17,6 +19,9 @@ func main() {
 	api.GET("/goods/:category/:id", handlers.GetGoodById)
 
 	admin := e.Group("/admin")
+	admin.Use(middleware.JWTWithConfig(middleware.JWTConfig{
+		ParseTokenFunc: m.ParseToken,
+	}))
 	admin.POST("/good", handlers.InsertGood)
 	admin.PUT("/good/:id", handlers.UpdateGood)
 	admin.DELETE("/good/:id", handlers.DeleteGood)

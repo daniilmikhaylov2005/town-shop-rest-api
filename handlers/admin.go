@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"github.com/daniilmikhaylov2005/town-shop-rest-api/middleware"
 	"github.com/daniilmikhaylov2005/town-shop-rest-api/models"
 	"github.com/daniilmikhaylov2005/town-shop-rest-api/repository"
 	"github.com/labstack/echo/v4"
@@ -90,6 +91,17 @@ func Signin(c echo.Context) error {
 }
 
 func InsertGood(c echo.Context) error {
+	claims, err := middleware.GetClaimsFromJWT(c)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, response{
+			Status: err.Error(),
+		})
+	}
+	if claims.Role != "admin" {
+		return c.JSON(http.StatusForbidden, response{
+			Status: "You don't have permission",
+		})
+	}
 
 	var good models.Good
 
@@ -129,6 +141,17 @@ func InsertGood(c echo.Context) error {
 	return c.JSON(http.StatusCreated, good)
 }
 func UpdateGood(c echo.Context) error {
+	claims, err := middleware.GetClaimsFromJWT(c)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, response{
+			Status: err.Error(),
+		})
+	}
+	if claims.Role != "admin" {
+		return c.JSON(http.StatusForbidden, response{
+			Status: "You don't have permission",
+		})
+	}
 	stringId := c.Param("id")
 	id, err := strconv.Atoi(stringId)
 
@@ -174,6 +197,17 @@ func UpdateGood(c echo.Context) error {
 	return c.JSON(http.StatusOK, good)
 }
 func DeleteGood(c echo.Context) error {
+	claims, err := middleware.GetClaimsFromJWT(c)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, response{
+			Status: err.Error(),
+		})
+	}
+	if claims.Role != "admin" {
+		return c.JSON(http.StatusForbidden, response{
+			Status: "You don't have permission",
+		})
+	}
 	stringId := c.Param("id")
 	id, err := strconv.Atoi(stringId)
 
